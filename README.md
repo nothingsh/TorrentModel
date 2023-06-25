@@ -1,3 +1,3 @@
 # TorrentModel
 
-A description of this package.
+Encode and decode torrent file.
