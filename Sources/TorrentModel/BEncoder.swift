@@ -26,7 +26,7 @@ class BEncoder {
     }
     
     private func encodeString(stringData: Data) throws -> Data {
-        return try "\(stringData.count)".toData() + stringData
+        return try "\(stringData.count):".toData() + stringData
     }
     
     private func encodeList(array: [Bencode]) throws -> Data {

@@ -29,7 +29,7 @@ enum Bencode {
     case list([Bencode])
     case dict([String : Bencode])
     
-    static let defaultStringEncoding = String.Encoding.ascii
+    static let defaultStringEncoding = String.Encoding.utf8
 }
 
 extension Bencode: CustomStringConvertible {
