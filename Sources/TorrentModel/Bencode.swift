@@ -23,17 +23,17 @@ public enum BencodeError: Error {
     case unexpectedBencode
 }
 
-enum Bencode {
+public enum Bencode {
     case int(Int)
     case string(Data)
     case list([Bencode])
     case dict([String : Bencode])
     
-    static let defaultStringEncoding = String.Encoding.utf8
+    public static let defaultStringEncoding = String.Encoding.utf8
 }
 
 extension Bencode: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         switch self {
         case .int(let int): return String(int)
         case .string(let data): return (try? data.toString()) ?? "data can't be decoded"

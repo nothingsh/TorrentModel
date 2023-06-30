@@ -7,10 +7,10 @@
 
 import Foundation
 
-class BDecoder {
+public class BDecoder {
     private var index = 0
     
-    func decode(data: Data) throws -> Bencode {
+    public func decode(data: Data) throws -> Bencode {
         index = 0
         return try decodeObject(data: data)
     }

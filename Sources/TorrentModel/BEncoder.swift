@@ -7,8 +7,8 @@
 
 import Foundation
 
-class BEncoder {
-    func encode(bencode: Bencode) throws -> Data {
+public class BEncoder {
+    public func encode(bencode: Bencode) throws -> Data {
         return try encodeObject(bencode: bencode)
     }
     
