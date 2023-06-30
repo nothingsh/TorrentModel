@@ -8,6 +8,8 @@
 import Foundation
 
 public class BEncoder {
+    public init() {}
+    
     public func encode(bencode: Bencode) throws -> Data {
         return try encodeObject(bencode: bencode)
     }
