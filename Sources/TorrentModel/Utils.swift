@@ -8,7 +8,7 @@
 import Foundation
 
 extension Data {
-    func toString(using encoding: String.Encoding = Bencode.defaultStringEncoding) throws -> String {
+    public func toString(using encoding: String.Encoding = Bencode.defaultStringEncoding) throws -> String {
         if let data_string = String(bytes: self, encoding: encoding) {
             return data_string
         } else {
@@ -18,7 +18,7 @@ extension Data {
 }
 
 extension String {
-    func toData(using encoding: String.Encoding = Bencode.defaultStringEncoding) throws -> Data {
+    public func toData(using encoding: String.Encoding = Bencode.defaultStringEncoding) throws -> Data {
         if let string_data = self.data(using: encoding) {
             return string_data
         } else {
