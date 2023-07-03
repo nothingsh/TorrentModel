@@ -13,12 +13,36 @@ public class BDecoder {
     public init() {}
     
     public func decode(data: Data) throws -> Bencode {
-        index = 0
+        index = data.startIndex
         return try decodeObject(data: data)
     }
     
+    public func decodeDictionaryKeyRawValue(data: Data) throws -> [String: Data] {
+        index = data.startIndex + 1
+        
+        var result = [String: Data]()
+        
+        while (index <= data.endIndex) && data[index] != BDelimiter.end.ascii {
+            guard case let .string(keyData) = try decodeString(data: data) else {
+                throw BencodeError.unexpectedBencode
+            }
+            
+            guard let key = try? keyData.toString() else {
+                throw BencodeError.unexpectData
+            }
+            
+            let startIndex = index
+            let _ = try decodeObject(data: data)
+            let value = data[startIndex..<index]
+            
+            result[key] = value
+        }
+        
+        return result
+    }
+    
     private func decodeObject(data: Data) throws -> Bencode {
-        guard index < data.count else {
+        guard index <= data.endIndex else {
             throw BencodeError.indexOutOfBounds
         }
         
@@ -59,7 +83,7 @@ public class BDecoder {
         guard let length = Int(lengthString) else {
             throw BencodeError.unexpectedIntegerString(lengthString)
         }
-        guard colonIndex+length+1 <= data.count else {
+        guard colonIndex+length <= data.endIndex else {
             throw BencodeError.indexOutOfBounds
         }
         let stringData = data[colonIndex+1..<colonIndex+length+1]
@@ -72,7 +96,7 @@ public class BDecoder {
         var result = [Bencode]()
         index += 1
         
-        while index < data.count-1 {
+        while index < data.endIndex {
             if (data[index] == BDelimiter.end.ascii) {
                 break
             }
@@ -89,7 +113,7 @@ public class BDecoder {
         var result = [String: Bencode]()
         index += 1
         
-        while index < data.count-1 {
+        while index < data.endIndex {
             if (data[index] == BDelimiter.end.ascii) {
                 break
             }

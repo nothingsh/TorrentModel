@@ -35,6 +35,7 @@ public struct TorrentModel {
     public let createdBy: String?
     public var encoding: String?
     public let info: TorrentModelInfo
+    public let infoRawData: Data
     
     // MARK: - encode torrent model to data
     
@@ -157,7 +158,11 @@ public struct TorrentModel {
         }
         let info = try decodeInfo(dictionary: infoDict)
         
-        return TorrentModel(announce: announce, announceList: announceList, creationDate: creationDate, comment: comment, createdBy: createdBy, encoding: encoding, info: info)
+        guard let info_data = try BDecoder().decodeDictionaryKeyRawValue(data: data)["info"] else {
+            throw TorrentModelError.valueNotFound
+        }
+        
+        return TorrentModel(announce: announce, announceList: announceList, creationDate: creationDate, comment: comment, createdBy: createdBy, encoding: encoding, info: info, infoRawData: info_data)
     }
     
     private static func decodeInfo(dictionary: [String : Bencode]) throws -> TorrentModelInfo {
