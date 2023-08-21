@@ -13,6 +13,11 @@ public class BDecoder {
     public init() {}
     
     public func decode(data: Data) throws -> Bencode {
+        // check data boundary
+        guard !data.isEmpty else {
+            return .dict([:])
+        }
+        
         index = data.startIndex
         return try decodeObject(data: data)
     }
